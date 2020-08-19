@@ -187,8 +187,11 @@ module DatabaseCleaner
           tables_with_schema
         end
 
-        def truncate_tables(table_names)
+        def truncate_tables(*args)
+          table_names = nil
+          table_names = args.flatten unless args.nil?
           return if table_names.nil? || table_names.empty?
+
           execute("TRUNCATE TABLE #{table_names.map{|name| quote_table_name(name)}.join(', ')} RESTART IDENTITY CASCADE;")
         end
 
